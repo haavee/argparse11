@@ -8,6 +8,7 @@ has a lot of features that should allow for something somewhat close to
 Python's argparse style of command line parsing, including automatically
 generated help text.
 
+## 1 minute intro
 Using the argparse11 library, Python argparse's first example
 [https://docs.python.org/3/library/argparse.html#example] can be
 implemented like in [example0.cc](example0.cc).
@@ -41,6 +42,36 @@ int main(int argc, char*const*const argv) {
 }
 ```
 
+# Basic usage
+Command line options are added through the `.add(...)` method, passing in
+any number of properties (see below) you'd want this command line option to
+have. Some compile-time checks are enforced (e.g. that the type of a given
+default matches the type of the argument stored, things like that).
+
+The `.parse(int, char const*const*const)` can be used to parse the command
+line of the program.
+
+There is no need to (try to) catch exceptions; if /anything/ goes wrong
+during parsing the program is terminated - contraints have been violated and
+thus there's no point going on.
+
+After a succesful parse, the converted values can be found in the variables
+that were `stored_into` or `collected_into` or can be extracted using:
+
+```c++
+    ...
+    cmd.add(short_name('m'), store_value<int>());
+    ...
+    auto  count = cmd.get<int>("m");
+```
+
+
+The library supports mutually-exclusive (exclusive or, XOR) command line options. They need to
+be added slightly differently: `.addXOR( option(...), option(...), ...)`
+where the parameters passed in each `option(...)` are what you'd use to add a non-mutually-exlusive option through `.add(...)`
+
+
+# Actions, constraints, requirements, conversion
 
 The library has many more actions and features:
 - `store_true()/store_false()/store_const(<value>)/store_value<T>()`
@@ -67,7 +98,7 @@ types enriched with "std::string". By adding:
 - `convert(Callable&&)`
 to an option's definition, it is possible to use your own string-to-user-data-type conversion routine, implemented by `Callable`.
 
-Options may have any number of docstring(...) entries which will be the
+Options may have any number of `docstring(...)` entries which will be the
 option's description in the help text.
 
 More detailed information about all of these can be found in the header of
