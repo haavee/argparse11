@@ -9,7 +9,10 @@ Python's argparse style of command line parsing.
 
 Using the argparse11 library, Python argparse's first example
 [https://docs.python.org/3/library/argparse.html#example] can be
-implemented like this:
+implemented like below.
+
+See [argparse11/argparse_actions.h]  for a full list of supported actions,
+constraints and other features.
 
 
 ```c++
