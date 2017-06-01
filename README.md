@@ -50,7 +50,6 @@ From the command line options added as shown above, in the [example0.cc](example
  [mymac]> Darwin-x86_64-native-opt/example0 --help
  Usage:  example0 [-h --help] [--sum] <int>...
  
- 
  Process some integers.
  
  positional arguments:
