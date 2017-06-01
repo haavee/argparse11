@@ -46,24 +46,25 @@ int main(int argc, char*const*const argv) {
 
 From the command line options added as shown above, in the [example0.cc](example0.cc) file, the library generates the following output if the program is called with `--help`:
 
-> [mymac]> Darwin-x86_64-native-opt/example0 --help
-> Usage:  example0 [-h --help] [--sum] <int>...
-> 
-> 
-> Process some integers.
-> 
-> positional arguments:
-> <int>...
->         an integer for the accumulator
->     Requirements:
->       postcondition:argument count greater than or equal 1
-> 
-> [-h --help]
-> 
-> [--sum]
->         Sum the integers (default: find the max)
->     Default:  std::__1::function<int (int, int)>
-
+```
+ [mymac]> Darwin-x86_64-native-opt/example0 --help
+ Usage:  example0 [-h --help] [--sum] <int>...
+ 
+ 
+ Process some integers.
+ 
+ positional arguments:
+ <int>...
+         an integer for the accumulator
+     Requirements:
+       postcondition:argument count greater than or equal 1
+ 
+ [-h --help]
+ 
+ [--sum]
+         Sum the integers (default: find the max)
+     Default:  std::__1::function<int (int, int)>
+```
 
 # Basic usage
 Command line options are added through the `.add(...)` method, passing in
