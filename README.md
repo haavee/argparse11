@@ -12,6 +12,7 @@ Using the argparse11 library, Python argparse's first example
 implemented like this:
 
 
+```c++
 #include <argparse.h>
 #include <list>
 #include <iterator>
@@ -62,4 +63,4 @@ int main(int argc, char*const*const argv) {
         << std::endl;
     return 0;
 }
-
+```
