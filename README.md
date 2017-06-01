@@ -43,28 +43,28 @@ int main(int argc, char*const*const argv) {
 
 
 The library has many more actions and features:
-    - `store_true()/store_false()/store_const(<value>)/store_value<T>()`
-    - `store_into(<variable>)`
-    - `collect<T>(), collect_into(<variable>)`
-    - `count(), count_into(<variable>)`
+- `store_true()/store_false()/store_const(<value>)/store_value<T>()`
+- `store_into(<variable>)`
+- `collect<T>(), collect_into(<variable>)`
+- `count(), count_into(<variable>)`
 
 The library allows for placing constraints on the (converted) value(s) from
 the command line option arguments, which will be automatically enforced:
-    - `minimum_value(v)/maximum_value(v)`
-    - `is_member_of({<set of values>})`
-    - `minimum_size(s)/maximum_size(s)/exact_size(s)`
-    - `constrain(Callable&&, "description")` - program your own constraint
+- `minimum_value(v)/maximum_value(v)`
+- `is_member_of({<set of values>})`
+- `minimum_size(s)/maximum_size(s)/exact_size(s)`
+- `constrain(Callable&&, "description")` - program your own constraint
       (e.g. put in a lambda)
-    - `match("<regex expression>")` - the argument's string version should
+- `match("<regex expression>")` - the argument's string version should
       match the regex
 
 It is possible to put requirements on how often the option/argument may be
 found on the command line:
-    - `at_least(n), at_most(n), exactly(n)`
+- `at_least(n), at_most(n), exactly(n)`
 
 The library has a built-in converter which knows about the standard POD
 types enriched with "std::string". By adding:
-    - `convert(Callable&&)`
+- `convert(Callable&&)`
 to an option's definition, it is possible to use your own string-to-user-data-type conversion routine, implemented by `Callable`.
 
 Options may have any number of docstring(...) entries which will be the
