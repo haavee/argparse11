@@ -1,17 +1,3 @@
-# argparse11
-C++11 (header only) library for Python argparse style command line parsing 
-
-
-Python's argparse [https://docs.python.org/3/library/argparse.html] is,
-after a steep learning curve, quite a powerful command line parser. C++11
-has a lot of features that should allow for something somewhat close to
-Python's argparse style of command line parsing.
-
-Using the argparse11 library, Python argparse's first example
-[https://docs.python.org/3/library/argparse.html#example] can be
-implemented like this:
-
-
 #include <argparse.h>
 #include <list>
 #include <iterator>
@@ -63,3 +49,21 @@ int main(int argc, char*const*const argv) {
     return 0;
 }
 
+
+#if 0
+// C++11 is not duck-typed like Python so we have to be a bit more
+// specific about the types - so we'll use this helper to avoid repeating
+// type information
+template <typename T, template <typename...> class Container = std::list, typename... Rest>
+struct accuhelper_type {
+    using container_type  = Container<T, Rest...>;
+    using accumulation_fn = std::function<T(T,T)>;
+
+    static accumulation_fn max( void ) {
+        return &std::max<T>;
+    }
+    static accumulation_fn plus( void ) {
+        return std::plus<T>();
+    }
+};
+#endif
