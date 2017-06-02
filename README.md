@@ -110,9 +110,9 @@ where the parameters passed in each `option(...)` are what you'd use to add a no
 
 The library has many more actions and features:
 - `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present
-- `store_into(<variable>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
-- `collect<T>(), collect_into(<variable>)` convert argument to type `T` or the `::value_type` of `<variable>` (`<variable>` must be a container, and collect all values in a container of your choice (`std::list` by default)
-- `count(), count_into(<variable>)` (self explanatory?) count how often the option is present
+- `store_into(<variable&>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
+- `collect<T>(), collect_into(<variable&>)` convert argument to type `T` or the `::value_type` of the type of `<variable>` (`<variable&>` must refer to an instance of a container); collect all converted values in the container of your choice (`std::list` by default or whatever `<variable&>` referred to)
+- `count(), count_into(<variable&>)` (self explanatory?) count how often the option is present
 
 The library allows for placing constraints on the (converted) value(s) from
 the command line option arguments, which will be automatically enforced:
