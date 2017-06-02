@@ -65,6 +65,19 @@ From the command line options added as shown above, in the [example0.cc](example
      Default:  std::__1::function<int (int, int)>
 ```
 
+The options are formatted according to these rules:
+
+- `[` ... `]` if the option is optional, i.e. 0 or more times
+- `...` (ellipsis) are added if the option may or must occur 1 or more times
+  (the distinction between *may* or *must* can be inferred from the presence
+(or lack of) `[` ... `]` brackets surrounding the option
+
+If the option takes an argument then the (inferred, internal) type of the
+argument is added:
+
+- `-f <int>`, `--input-file=<string>` etc
+
+
 # Command line syntax supported
 
 The library supports the following flavours of command line options:
