@@ -123,42 +123,99 @@ that were `stored_into` or `collected_into` or can be extracted using:
     auto  count = cmd.get<int>("m");
 ```
 
+## Mutually-exclusive command line options
 
 The library supports mutually-exclusive (exclusive or, XOR) command line options. They need to
-be added slightly differently: `.addXOR( option(...), option(...), ...)`
-where the parameters passed in each `option(...)` are what you'd use to add a non-mutually-exlusive option through `.add(...)`
+be added slightly differently, specifically through the  `.addXOR( option(...), option(...), ...)` member function.
+
+The `option(...)` are the members of this mutually-exclusive group of
+options. The arguments passed to the `option(...)` function are  are what you'd use to add a non-mutually-exlusive option through `.add(...)`:
+
+```c++
+    cmd.addXOR( option(long_name("print"),  store_true(), at_most(3)),
+                option(long_name("no-print"), store_false(), at_most(2)) /*, ...*/ );
+```
+
+Obviously, the `argparse::` namespace qualifier has been omitted for readability.
 
 
 # Actions, constraints, requirements, conversion
 
-The library has many more actions and features:
+The library has many actions and other, potentially useful, attributes that
+can be added to a command line option, think of constraints or setting
+limit(s) on how often said option may or must be present.
+
+
+## Actions
+
+These define what happens if the option is found on the command line. Each
+option *must* have one.
+
 - `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present (a `store_const_into(<variable&>)` is planned, if only for the symmetry
 - `store_into(<variable&>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
 - `collect<T>(), collect_into(<variable&>)` convert argument to type `T` or the `::value_type` of the type of `<variable>` (`<variable&>` must refer to an instance of a container); collect all converted values in the container of your choice (`std::list` by default or whatever `<variable&>` referred to)
 - `count(), count_into(<variable&>)` (self explanatory?) count how often the option is present
 
-The library allows for placing constraints on the (converted) value(s) from
+
+## Constraints
+
+Your code may benefit if the command line parser helps in only accepting
+values that are within certain limits, so that you don't have to test them
+manually (the library is, after all, already converting the value so why not
+take a look at it whilst it's there).
+
+`argparse11` allows for placing constraints on the (converted) value(s) from
 the command line option arguments, which will be enforced if the option was
 parsed from the command line.
+
 - `minimum_value(v)/maximum_value(v)`
 - `is_member_of({<set of values>})`
 - `minimum_size(s)/maximum_size(s)/exact_size(s)`
 - `constrain(Callable&&, "description")` - program your own constraint
-      (e.g. put in a lambda)
+      (e.g. put in a lambda to constrain on just about any condition)
 - `match("<regex expression>")` - the argument's string version should
       match the regex
 
-It is possible to put requirements on how often the option/argument may be
-found on the command line:
+## Requirements
+
+Quite often it is nice to limit (upper bound or lower bound) the amount of
+times a command line option may or must be present.
+
+`argparse11` has the following requirement primitives; combinations are
+allowed, although it is not checked that the combination makes sense.
+
 - `at_least(n), at_most(n), exactly(n)`
 
+## Conversion
+
 The library has a built-in converter which knows about the standard POD
-types enriched with "std::string". By adding:
+types enriched with "std::string". So no work from you is required to read
+any of these.
+
+For specific conversion or conversion to user-defined-data-type, one can
+add:
+
 - `convert(Callable&&)`
-to an option's definition, it is possible to use your own string-to-user-data-type conversion routine, implemented by `Callable`.
+
+to an option's definition: `Callable&&` should then implement one's own string-to-user-data-type conversion routine.
+
+## documentation
 
 Options may have any number of `docstring(...)` entries which will be the
 option's description in the help text.
 
+The `ArgumentParser(...)` constructor also supports any number of
+`docstring(...)` entries which will make up the program's description.
+
+The `version(...)` primitive, when added to the `ArgumentParser(...)`
+constructor will, as one would expect, store the program's version. 
+
+# Exact details
+
 More detailed information about all of these can be found in the header of
-the [argparse_actions.h](argparse_actions.h) header file.
+the [argparse_actions.h](argparse_actions.h) header file, specifically what
+type of argument(s) they expect.
+
+Typically, they are very flexible - if possible focussing on `duck typing`
+(e.g. the `version(...)` accepts anything that supports
+`operator<<(std::ostream&, ...)`)
