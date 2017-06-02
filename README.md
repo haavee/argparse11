@@ -14,8 +14,8 @@ Using the argparse11 library, Python argparse's first example
 implemented like in [example0.cc](example0.cc).
 
 Stripped down to the pure argparse11 basics, [example0.cc](example0.cc) does
-the following. Even without knowing too much, it should be fairly readable
-(that is, by C++ standards ...).
+the following, even without knowing too much, it should be fairly readable
+(that is, by C++ standards ...):
 
 ```c++
 #include <argparse.h>
@@ -65,11 +65,23 @@ From the command line options added as shown above, in the [example0.cc](example
      Default:  std::__1::function<int (int, int)>
 ```
 
+# Command line syntax supported
+
+The library supports the following flavours of command line options:
+
+- `-x` `--long-name` for flags or options that do not take an argument
+- `-xyz` is interpreted as `-x -y -z` and is only valid if none of `x, y` and `z` take an argument (otherwise a parse error occurs)
+- `-f ARG` `--input-file ARG` `--input-file=ARG` for options taking an argument
+
+Note that numerical options are not supported. The main reason for that was to be able to support negative numbers as arguments. But maybe this could be leveraged by a somewhat hairier parser.
+
 # Basic usage
+
 Command line options are added through the `.add(...)` method, passing in
 any number of properties (see below) you'd want this command line option to
 have. Some compile-time checks are enforced (e.g. that the type of a given
-default matches the type of the argument stored, things like that).
+default matches the type of the argument stored, if a default is set that it
+doesn't violate any of the constraints placed on the value, things like that).
 
 The `.parse(int, char const*const*const)` can be used to parse the command
 line of the program.
@@ -97,10 +109,10 @@ where the parameters passed in each `option(...)` are what you'd use to add a no
 # Actions, constraints, requirements, conversion
 
 The library has many more actions and features:
-- `store_true()/store_false()/store_const(<value>)/store_value<T>()`
-- `store_into(<variable>)`
-- `collect<T>(), collect_into(<variable>)`
-- `count(), count_into(<variable>)`
+- `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present
+- `store_into(<variable>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
+- `collect<T>(), collect_into(<variable>)` convert argument to type `T` or the `::value_type` of `<variable>` (`<variable>` must be a container, and collect all values in a container of your choice (`std::list` by default)
+- `count(), count_into(<variable>)` (self explanatory?) count how often the option is present
 
 The library allows for placing constraints on the (converted) value(s) from
 the command line option arguments, which will be automatically enforced:
