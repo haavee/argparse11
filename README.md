@@ -75,18 +75,28 @@ The options are formatted according to these rules:
 If the option takes an argument then the (inferred, internal) type of the
 argument is added:
 
-- `-f <int>`, `--input-file=<string>` etc
+- `-f <int>`, `--input-file <string>`, `--threshold <float>` etc
+
+The library contains a facility macro `HUMANREADABLE(Type, text)` in
+order to demangle user-defined-date-type `Type` into, well, human readable
+text `text` in stead of its typically unreadable, though demangled, C++ type name.
 
 
-# Command line syntax supported
+# Supported command line syntax
 
 The library supports the following flavours of command line options:
 
 - `-x` `--long-name` for flags or options that do not take an argument
 - `-xyz` is interpreted as `-x -y -z` and is only valid if none of `x, y` and `z` take an argument (otherwise a parse error occurs)
 - `-f ARG` `--input-file ARG` `--input-file=ARG` for options taking an argument
+- `ARG` for the unnamed command line option (if present, that is), also dubbed "the program's
+  arguments"
 
 Note that numerical options are not supported. The main reason for that was to be able to support negative numbers as arguments. But maybe this could be leveraged by a somewhat hairier parser.
+
+At the moment there is no `--` sentinel to enable verbatim, unparsed &
+unverified, collection of the remaining command line arguments. If desired
+it shouldn't be too big a deal to add.
 
 # Basic usage
 
@@ -122,13 +132,14 @@ where the parameters passed in each `option(...)` are what you'd use to add a no
 # Actions, constraints, requirements, conversion
 
 The library has many more actions and features:
-- `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present
+- `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present (a `store_const_into(<variable&>)` is planned, if only for the symmetry
 - `store_into(<variable&>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
 - `collect<T>(), collect_into(<variable&>)` convert argument to type `T` or the `::value_type` of the type of `<variable>` (`<variable&>` must refer to an instance of a container); collect all converted values in the container of your choice (`std::list` by default or whatever `<variable&>` referred to)
 - `count(), count_into(<variable&>)` (self explanatory?) count how often the option is present
 
 The library allows for placing constraints on the (converted) value(s) from
-the command line option arguments, which will be automatically enforced:
+the command line option arguments, which will be enforced if the option was
+parsed from the command line.
 - `minimum_value(v)/maximum_value(v)`
 - `is_member_of({<set of values>})`
 - `minimum_size(s)/maximum_size(s)/exact_size(s)`
