@@ -54,14 +54,14 @@ From the command line options added as shown above, in the [example0.cc](example
  
  positional arguments:
  <int>...
-         an integer for the accumulator
+     an integer for the accumulator
      Requirements:
        postcondition:argument count greater than or equal 1
  
  [-h --help]
  
  [--sum]
-         Sum the integers (default: find the max)
+     Sum the integers (default: find the max)
      Default:  std::__1::function<int (int, int)>
 ```
 
@@ -151,10 +151,12 @@ limit(s) on how often said option may or must be present.
 These define what happens if the option is found on the command line. Each
 option *must* have one.
 
-- `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present (a `store_const_into(<variable&>)` is planned, if only for the symmetry
+- `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present (a `store_const_into(<variable&>)` is planned, if only for the symmetry)
 - `store_into(<variable&>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
 - `collect<T>(), collect_into(<variable&>)` convert argument to type `T` or the `::value_type` of the type of `<variable>` (`<variable&>` must refer to an instance of a container); collect all converted values in the container of your choice (`std::list` by default or whatever `<variable&>` referred to)
 - `count(), count_into(<variable&>)` (self explanatory?) count how often the option is present
+- `print_help()`, `print_usage()`, `print_version()` - there are *not* added
+  by default: it is your call to add them and under which flag/option.
 
 
 ## Constraints
@@ -199,7 +201,7 @@ add:
 
 to an option's definition: `Callable&&` should then implement one's own string-to-user-data-type conversion routine.
 
-## documentation
+## Documentation
 
 Options may have any number of `docstring(...)` entries which will be the
 option's description in the help text.
