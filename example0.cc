@@ -11,28 +11,10 @@ namespace AP = argparse;
 template <typename T>
 using accumulation_fn = std::function<T(T, T)>;
 
-// This ... is totally not correct. But that's mostly because we cannot
-// construct a function pointer to std::max<T> (like with std::plus<T>), so
-// it /had/ to be wrapped inside a lambda below [ok there are other options
-// but hey, C++11 has lambdas so we must use them ;-)]
-//template <typename T>
-//std::ostream& operator<<(std::ostream& os, accumulation_fn<T> const& afn) {
-//    if( afn.template target<std::plus<T>>() )
-//        return os << "std::plus";
-//    return os << "std::max";
-//}
-std::ostream& operator<<(std::ostream& os, std::function<int(int,int)> const& afn) {
-    if( afn.template target<std::plus<int>>() )
-        return os << "std::plus";
-    return os << "std::max";
-}
-
 int main(int argc, char*const*const argv) {
     auto           cmd = AP::ArgumentParser( AP::docstring("Process some integers.") );
     std::list<int> ints;    // the integers collected from the command line
 
-    std::cout << "streamable: " << AP::detail::is_streamable<accumulation_fn<int>>::value << ", " << accumulation_fn<int>(std::plus<int>()) << std::endl;
-    std::cout << "streamable: " << AP::detail::is_streamable<std::function<int(int,int)>>::value << ", " << accumulation_fn<int>([](int, int) { return int(3); }) << std::endl;
     // We have '-h|--help', '--sum' and the arguments, integers
     // The argparse11 library does not automatically add "--help" - it's at
     // your discretion wether to add it and under which flag(s).
