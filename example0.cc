@@ -6,7 +6,7 @@
 #include <iostream>
 
 // shorthands
-namespace AP = argparse;
+namespace ap = argparse;
 
 template <typename T>
 using accumulation_fn = std::function<T(T, T)>;
