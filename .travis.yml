@@ -1,6 +1,8 @@
 sudo: required
 dist: trusty
-os: linux
+os:
+  - linux
+  - osx
 
 addons:
   apt:
@@ -17,6 +19,7 @@ addons:
 matrix:
   include:
     - compiler: gcc
+      os: linux
       addons:
         apt:
           sources:
@@ -25,6 +28,7 @@ matrix:
             - g++-4.9
       env: COMPILER=g++-4.9
     - compiler: gcc
+      os: linux
       addons:
         apt:
           sources:
@@ -33,6 +37,7 @@ matrix:
             - g++-5
       env: COMPILER=g++-5
     - compiler: clang
+      os: linux
       addons:
         apt:
           sources:
@@ -42,6 +47,7 @@ matrix:
             - clang-3.6
       env: COMPILER=clang++-3.6
     - compiler: clang
+      os: linux
       addons:
         apt:
           sources:
@@ -50,6 +56,7 @@ matrix:
           packages:
             - clang-3.7
       env: COMPILER=clang++-3.7
+    - os: osx
 
 script:
   - make example0
