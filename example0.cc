@@ -12,24 +12,25 @@ template <typename T>
 using accumulation_fn = std::function<T(T, T)>;
 
 int main(int argc, char*const*const argv) {
-    auto           cmd = AP::ArgumentParser( AP::docstring("Process some integers.") );
+    auto           cmd = ap::ArgumentParser( ap::docstring("Process some integers.") );
     std::list<int> ints;    // the integers collected from the command line
 
     // We have '-h|--help', '--sum' and the arguments, integers
     // The argparse11 library does not automatically add "--help" - it's at
     // your discretion wether to add it and under which flag(s).
-    cmd.add( AP::long_name("help"), AP::short_name('h'), AP::print_help() );
+    cmd.add( ap::long_name("help"), ap::short_name('h'), ap::print_help() );
 
     // If '--sum' is provided, use that, otherwise find the max.
-    cmd.add( AP::docstring("Sum the integers (default: find the max)"), AP::long_name("sum"),
-             AP::store_const(accumulation_fn<int>(std::plus<int>())),
-             AP::set_default(accumulation_fn<int>([](int a, int b) { return std::max(a, b); })) );
+    cmd.add( ap::docstring("Sum the integers (default: find the max)"), ap::long_name("sum"),
+             ap::store_const(accumulation_fn<int>(std::plus<int>())),
+             ap::set_default(accumulation_fn<int>([](int a, int b) { return std::max(a, b); })) );
 
     // Let the command line parser collect the converted command line
     // options into our STL container. By not giving this 'option' a name, the
     // system takes that to mean "oh, these must be the command line arguments then"
     // Note: we require at least one integer
-    cmd.add( AP::collect_into(ints), AP::at_least(1), AP::docstring("an integer for the accumulator") );
+    cmd.add( ap::collect_into(ints), ap::at_least(1),
+             ap::docstring("an integer for the accumulator") );
 
     // Parse the command line
     cmd.parse(argc, argv);
