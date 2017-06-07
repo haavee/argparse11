@@ -1,9 +1,9 @@
 sudo: required
 dist: trusty
 language: cpp
-os:
-  - linux
-  - osx
+#os:
+#  - linux
+#  - osx
 
 addons:
   apt:
