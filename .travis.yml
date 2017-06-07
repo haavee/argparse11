@@ -1,5 +1,6 @@
 sudo: required
 dist: trusty
+language: cpp
 os:
   - linux
   - osx
@@ -56,7 +57,10 @@ matrix:
           packages:
             - clang-3.7
       env: COMPILER=clang++-3.7
-    - os: osx
+    - compiler: gcc
+      os: osx
+    - compiler: clang
+      os: osx
 
 script:
   - make example0
