@@ -1,12 +1,13 @@
 # argparse11
-C++11 (header only) library for Python argparse style command line parsing  [![Build Status](https://travis-ci.org/haavee/argparse11.svg?branch=master)](https://travis-ci.org/haavee/argparse11)
-
+C++11 (header only) library for Python argparse style command line parsing 
 
 Python's argparse [https://docs.python.org/3/library/argparse.html] is,
 after a steep learning curve, quite a powerful command line parser. C++11
 has a lot of features that should allow for something somewhat close to
 Python's argparse style of command line parsing, including automatically
 generated help text.
+
+[![Build Status](https://travis-ci.org/haavee/argparse11.svg?branch=master)](https://travis-ci.org/haavee/argparse11)
 
 ## 1 minute intro
 Using the argparse11 library, Python argparse's first example
