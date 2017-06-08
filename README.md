@@ -1,5 +1,5 @@
 # argparse11
-C++11 (header only) library for Python argparse style command line parsing 
+C++11 (header only) library for Python argparse style command line parsing  [![Build Status](https://travis-ci.org/haavee/argparse11.svg?branch=master)](https://travis-ci.org/haavee/argparse11)
 
 
 Python's argparse [https://docs.python.org/3/library/argparse.html] is,
