@@ -85,7 +85,9 @@ The options are formatted according to these rules:
 - `[` ... `]` if the option is optional, i.e. 0 or more times
 - `...` (ellipsis) are added if the option may or must occur 1 or more times
   (the distinction between *may* or *must* can be inferred from the presence
-(or lack of) `[` ... `]` brackets surrounding the option
+(or lack of) `[` ... `]` brackets surrounding the option. Note: see
+[[Requirements](https://github.com/haavee/argparse11#requirements)](Requirements) section
+below - the library has more finer-grained control besides this.
 
 If the option takes an argument then the (inferred, internal) type of the
 argument is added:
