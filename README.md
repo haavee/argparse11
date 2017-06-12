@@ -42,6 +42,20 @@ int main(int argc, char*const*const argv) {
 }
 ```
 
+With the appeareance of `store_const_into(...)` and a helper template it can
+be simplified to:
+
+```c++
+    auto           accufn = mk_accumulator<int, max_f>();
+    ...
+    cmd.add(ap::docstring("Sum the integers (default: find the max)"),
+            ap::store_const_into(mk_accumulator<int, std::plus>(), accufn),
+            ap::long_name("sum"));
+    ...
+    std::accumulate(++std::begin(ints), std::end(ints), *std::begin(ints), accufn);
+
+```
+
 # The automatically generated documentation
 
 From the command line options added as shown above, in the [example0.cc](example0.cc) file, the library generates the following output if the program is called with `--help`:
@@ -151,7 +165,7 @@ limit(s) on how often said option may or must be present.
 These define what happens if the option is found on the command line. Each
 option *must* have one.
 
-- `store_true()/store_false()/store_const(<value>)` don't take an argument, do the action if the option is present (a `store_const_into(<variable&>)` is planned, if only for the symmetry)
+- `store_true()/store_false()/store_const(<value>)`,`store_const_into(<value>, <variable&>)` don't take an argument, do the action if the option is present
 - `store_into(<variable&>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
 - `collect<T>(), collect_into(<variable&>)` convert argument to type `T` or the `::value_type` of the type of `<variable>` (`<variable&>` must refer to an instance of a container); collect all converted values in the container of your choice (`std::list` by default or whatever `<variable&>` referred to)
 - `count(), count_into(<variable&>)` (self explanatory?) count how often the option is present
