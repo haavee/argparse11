@@ -152,7 +152,13 @@ options. The arguments passed to the `option(...)` function are  are what you'd 
                 option(long_name("no-print"), store_false(), at_most(2)) /*, ...*/ );
 ```
 
-Obviously, the `argparse::` namespace qualifier has been omitted for readability.
+With the appearance of the `required()` (see [[Requirements](https://github.com/haavee/argparse11#requirements)]) requirement predicate, it is possible to indicate that exactly one of the `option()`s *HAS* to be present on the command line. This is the only requirement predicate that is allowed in the `.addXOR(...)` call, besides any number of `option(...)` option specifiers:
+
+```c++
+    cmd.addXOR( option(...), required(), option(...), ... );
+```
+
+Obviously, in all the examples here the `argparse::` namespace qualifier has been omitted for readability.
 
 
 # Actions, constraints, requirements, conversion
@@ -202,7 +208,10 @@ times a command line option may or must be present.
 `argparse11` has the following requirement primitives; combinations are
 allowed, although it is not checked that the combination makes sense.
 
-- `at_least(n), at_most(n), exactly(n)`
+- `at_least(n), at_most(n)`
+- `exactly(n)`
+- `required()` is almost, but not quite, entirely short-hand for
+  `exactly(1)`. This is the /only/ requirement that can be added to a mutually exclusive group of options (see [[`.addXOR(...)`](https://github.com/haavee/argparse11#mutually-exclusive-command-line-options)]). When added as a requirement to a normal option (`.add(...)`) acts exactly as `exactly(1)`, exactly as expected.
 
 ## Conversion
 
