@@ -21,19 +21,19 @@ the following, even without knowing too much, it should be fairly readable
 ```c++
 #include <argparse.h>
 
-using AP = argparse;
+using ap = argparse;
 
 int main(int argc, char*const*const argv) {
-    auto           cmd = AP::ArgumentParser( AP::docstring("Process some integers.") );
+    auto           cmd = ap::ArgumentParser( ap::docstring("Process some integers.") );
     std::list<int> ints;    // the integers collected from the command line
 
-    cmd.add( AP::long_name("help"), AP::short_name('h'), AP::print_help() );
+    cmd.add( ap::long_name("help"), ap::short_name('h'), ap::print_help() );
 
-    cmd.add( AP::docstring("Sum the integers (default: find the max)"), AP::long_name("sum"),
-             AP::store_const(accumulation_fn<int>(std::plus<int>())),
-             AP::set_default(accumulation_fn<int>([](int a, int b) { return std::max(a, b); })) );
+    cmd.add( ap::docstring("Sum the integers (default: find the max)"), ap::long_name("sum"),
+             ap::store_const(accumulation_fn<int>(std::plus<int>())),
+             ap::set_default(accumulation_fn<int>([](int a, int b) { return std::max(a, b); })) );
 
-    cmd.add( AP::collect_into(ints), AP::at_least(1), AP::docstring("an integer for the accumulator") );
+    cmd.add( ap::collect_into(ints), ap::at_least(1), ap::docstring("an integer for the accumulator") );
 
     cmd.parse(argc, argv);
 
