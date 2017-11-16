@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <cerrno>
 #include <climits>
+#include <cstring>
 #include <libgen.h>
 
 
@@ -189,12 +190,13 @@ namespace argparse {
                 // Step 0. Program name
                 if( argv ) {
                     char    buf[PATH_MAX+1], *bn;
+
                     if( ::realpath(*argv, buf)==nullptr )
-                        fatal_error(std::cerr, "realpath() fails on '", buf, "' - ", ::strerror(errno));
+                        ::strncpy(buf, *argv, PATH_MAX);
                     bn = ::basename(buf);
                     if( bn==nullptr )
                         fatal_error(std::cerr, "basename() fails on '", buf, "' - ", ::strerror(errno));
-                    __m_program = ::basename(buf);
+                    __m_program = bn;
                 }
 
                 // Step 1. Transform into list of strings 
