@@ -395,7 +395,8 @@ namespace argparse {
                     std::forward<Constraints>(constraints)( def.__m_default );
                 }
                 catch( std::exception const& e ) {
-                    throw constraint_violation(std::string("The default violated a constraint: ")+e.what());
+                    // this should be a fatal error!
+                    fatal_error(std::cerr, "The default violated a constraint: ", e.what());
                 }
             }
         };
