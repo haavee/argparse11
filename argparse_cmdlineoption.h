@@ -456,7 +456,26 @@ namespace argparse { namespace detail {
                        "The type of the default is incompatible with the type of the option" );
 
         // Verify that any defaults that are set do not violate any constraints
-        functools::map(okDefaults, default_constrainer_t(), optionPtr->__m_constraint_f);
+        try {
+            functools::map(okDefaults, default_constrainer_t(), optionPtr->__m_constraint_f);
+        }
+        catch( std::exception const& e ) {
+            // So the default triggered an error. Turn this into an
+            // intelligible error message
+            std::ostringstream err;
+            // The nameless command line option ("positional argument") has no name ...
+            if( optionIF->__m_names.empty() )
+                err << "the positional argument (the nameless option)";
+            else {
+                // Names are sorted by reverse size
+                unsigned int n{ 0 };
+                err << "the option '";
+                for(auto const& nm: reversed(optionIF->__m_names))
+                    err << (n++ ? " " : "") << (nm.size()==1 ? "-" : "--") << nm;
+                err << "'";
+            }
+            fatal_error(std::cerr, e.what(), " creating ", err.str());
+        }
 
         // Now we can blindly 'map' the default setter over ALL defaults (well,
         // there's at most one ...). This function can be void(void) because
