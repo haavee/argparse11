@@ -1410,7 +1410,7 @@ namespace argparse {
 
     const detail::invisible_t hidden( void ) {
         return detail::invisible_t{};
-    };
+    }
 
 } // namespace argparse
 
