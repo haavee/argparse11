@@ -5,7 +5,8 @@ Python's argparse [https://docs.python.org/3/library/argparse.html] is,
 after a steep learning curve, quite a powerful command line parser. C++11
 has a lot of features that should allow for something somewhat close to
 Python's argparse style of command line parsing, including automatically
-generated help text.
+generated help text. Because of C++'s static typing, sometimes this library
+can do better because properties can be inferred at compile time.
 
 [![Build Status](https://travis-ci.org/haavee/argparse11.svg?branch=master)](https://travis-ci.org/haavee/argparse11)
 
@@ -54,6 +55,17 @@ be simplified to:
             ap::long_name("sum"));
     ...
     std::accumulate(++std::begin(ints), std::end(ints), *std::begin(ints), accufn);
+
+```
+
+With the smartened up `collect_into()` (see [[Actions](https://github.com/haavee/argparse11#actions-constraints-requirements-conversion)]) it is possible to do this:
+
+```c++
+    std::string     parameters[3] = {"jupiter", "dwl", "1970-3-17 18:56:00"};
+    ...
+    cmd.add(ap::docstring("The parameters <object> <observatory> <time>"),
+            ap::collect_into(parameters));
+    ...
 
 ```
 
@@ -176,6 +188,23 @@ option *must* have one.
 - `store_true()/store_false()/store_const(<value>)`,`store_const_into(<value>, <variable&>)` don't take an argument, do the action if the option is present
 - `store_into(<variable&>)/store_value<T>()` convert argument to the type of `<variable>` or `T` and then store
 - `collect<T>(), collect_into(<variable&>)` convert argument to type `T` or the `::value_type` of the type of `<variable>` (`<variable&>` must refer to an instance of a container); collect all converted values in the container of your choice (`std::list` by default or whatever `<variable&>` referred to)
+
+   The `collect_into(T&)` has been made smarter - it can now collect into
+  `std::array<T, N>` (C++11 static sized array) or `T(&)[N]` (C-style
+          array!); the type and maximum number of arguments to be converted
+  are inferred from the array type. 
+
+  There is now `collect_into(Iterator first, Iterator last)`; the type of
+  arguments to be converted is inferred from whatever the iterator is
+  iterating at. The maximum number of arguments is inferred from
+  `std::distance(first, last)`
+  - In all these cases successive values converted from the command line
+  replace successive elements in the array or range; the system executes
+  `*ptr++ = <converted value>` (`ptr` is either `std::begin(arr)` or
+          `first`)
+  -  The system will automatically add a precondition to make sure that no more elements will
+  be replaced than indicated by the size of the array or range
+
 - `count(), count_into(<variable&>)` (self explanatory?) count how often the option is present
 - `print_help()`, `print_usage()`, `print_version()` - there are *not* added
   by default: it is your call to add them and under which flag/option.
