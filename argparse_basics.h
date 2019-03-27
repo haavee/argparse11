@@ -30,7 +30,7 @@
 
 #include <cstdlib>
 
-namespace argparse {
+namespace argparse11 {
 
     // forward declaration
     class ArgumentParser;
@@ -50,7 +50,7 @@ namespace argparse {
     };
 
     // The constraint implementation details shouldn't have to be in the
-    // argparse namespace
+    // argparse11 namespace
     namespace detail {
         template <typename T>
         using Constraint  = std::function<bool(typename std::decay<T>::type const&)>;
@@ -146,6 +146,6 @@ namespace argparse {
         std::exit( exit_code );
     }
 
-} // namespace argparse {
+} // namespace argparse11 {
 
 #endif

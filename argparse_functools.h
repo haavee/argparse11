@@ -20,7 +20,7 @@
 #include <iterator>
 #include <algorithm>
 
-namespace argparse { namespace functools {
+namespace argparse11 { namespace functools {
 
     namespace detail {
         // This particular trick found here:
@@ -449,6 +449,6 @@ namespace argparse { namespace functools {
         functools::filter_v(detail::always_true(), std::forward<T>(t), std::forward<Iter>(iter));
     }
 
-} }  // namespace argparse { namespace functools {
+} }  // namespace argparse11 { namespace functools {
 
 #endif // include guard

@@ -32,7 +32,7 @@
 #include <cstdlib>   // for std::free, std::exit
 #include <cxxabi.h>
 
-namespace argparse { namespace detail {
+namespace argparse11 { namespace detail {
 
     ////////////////////////////////////////////////////////////////////////////
     //
@@ -464,6 +464,6 @@ namespace argparse { namespace detail {
                                 std::string());
     }
 
-} } // namespace argparse { namespace detail {
+} } // namespace argparse11 { namespace detail {
 
 #endif

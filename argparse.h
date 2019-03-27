@@ -31,7 +31,7 @@
 #include <libgen.h>
 
 
-namespace argparse {
+namespace argparse11 {
 
     namespace detail {
         // support stuff
@@ -338,10 +338,10 @@ namespace argparse {
             //////////////////////////////////////////////////////////////////////
             //
             //  The print_help() implementation; called if an option with
-            //  action argparse::print_help() is triggered.
+            //  action argparse11::print_help() is triggered.
             //
             //  Note that this also doubles as implementation of the
-            //  "argparse::print_usage()" action; the difference is in 
+            //  "argparse11::print_usage()" action; the difference is in 
             //  the boolean argument passed by the triggered action
             //
             //////////////////////////////////////////////////////////////////////
@@ -424,7 +424,7 @@ namespace argparse {
             //////////////////////////////////////////////////////////////////////
             //
             //  The print_version() implementation; called if an option with
-            //  action argparse::print_version() is triggered.
+            //  action argparse11::print_version() is triggered.
             //
             //  Note that if the parser was constructed without
             //  argparse::version(...) and yet this is triggered a fatal
@@ -461,10 +461,10 @@ namespace argparse {
             // Add a set of command line options that are mutually
             // exclusive.
             //
-            // You must use argparse::option(....) to construct the
+            // You must use argparse11::option(....) to construct the
             // individual options that are to be mutually exclusive:
             //
-            // .addXOR( argparse::option(....), argparse::option(...), ...)
+            // .addXOR( argparse11::option(....), argparse11::option(...), ...)
             //
             // At most one of the options may appear and if the option has
             // extra pre/post conditions then those are only enforced if the
@@ -539,7 +539,7 @@ namespace argparse {
                 if( required && !visible )
                     fatal_error(std::cerr, "All of members of the required XOR group '", allOpts, "' are invisible.\n", 
                                 "This is confusing for the user: something must be entered but the framework is not allowed to inform him or her what.\n",
-                                "Therefore the argparse framework forbids construction of this XOR option");
+                                "Therefore the argparse11 framework forbids construction of this XOR option");
 
                 // Now that we have /that/ we can add a precondition for all
                 // options in this group: only one can have non-zero
@@ -689,7 +689,7 @@ namespace argparse {
     };
 
 
-} //namespace argparse
+} //namespace argparse11
 
 
 // Macro to allow user data types to be demangled to a human readable type
@@ -703,7 +703,7 @@ namespace argparse {
 //
 // But we don't know about user data types; therefore this.
 #define HUMANREADABLE(Type, Text) \
-    namespace argparse { namespace detail { \
+    namespace argparse11 { namespace detail { \
         template <> std::string demangle_f<Type>( void ) { return Text; } \
     }}
 

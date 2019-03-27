@@ -22,7 +22,7 @@ the following, even without knowing too much, it should be fairly readable
 ```c++
 #include <argparse.h>
 
-using ap = argparse;
+using ap = argparse11;
 
 int main(int argc, char*const*const argv) {
     auto           cmd = ap::ArgumentParser( ap::docstring("Process some integers.") );
@@ -170,7 +170,7 @@ With the appearance of the `required()` (see [[Requirements](https://github.com/
     cmd.addXOR( option(...), required(), option(...), ... );
 ```
 
-Obviously, in all the examples here the `argparse::` namespace qualifier has been omitted for readability.
+Obviously, in all the examples here the `argparse11::` namespace qualifier has been omitted for readability.
 
 
 # Actions, constraints, requirements, conversion

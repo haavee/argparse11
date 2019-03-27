@@ -27,7 +27,7 @@
 #include <algorithm>
 #include <functional>
 
-namespace argparse { namespace detail {
+namespace argparse11 { namespace detail {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //                            the command line objects
@@ -53,7 +53,7 @@ namespace argparse { namespace detail {
     struct CmdLineOptionIF {
         using condition_f = std::function<void(unsigned int, CmdLineOptionIF const*)>;
 
-        friend class argparse::ArgumentParser;
+        friend class argparse11::ArgumentParser;
 
         template <typename... Props>
         friend CmdLineOptionPtr mk_argument(CmdLineBase*, Props&&...);
@@ -601,6 +601,6 @@ namespace argparse { namespace detail {
         return optionPtr;
     }
 
-} } // namespace argparse, namespace detail
+} } // namespace argparse11, namespace detail
 
 #endif

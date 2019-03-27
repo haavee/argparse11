@@ -21,25 +21,34 @@
 #include <iostream>
 
 // shorthands
-namespace ap = argparse;
+namespace ap = argparse11;
 
 // Turn std::max into a templated functor
-template <typename T>
-struct max_f: public std::binary_function<T, T, T> {
-    T operator()(T const& l, T const& r) const {
-        return std::max(l, r);
-    }
-};
+//template <typename T>
+//struct max_f: public std::binary_function<T, T, T> {
+//    T operator()(T const& l, T const& r) const {
+//        return std::max(l, r);
+//    }
+//};
 
-// Make it easier to construct an accumulation function
-template <typename T, template <typename X, typename...> class Accu, typename... Rest, typename... Args>
-std::function<T(T const&, T const&)> mk_accumulator(Args&&... args) {
-    return std::function<T(T const&, T const&)>(Accu<T, Rest...>(std::forward<Args>(args)...));
+template <typename T>
+auto mk_accumulator(T(*Callable)(T const&, T const&)) -> std::function<T(T const&, T const&)> {
+    return std::function<T(T const&, T const&)>([=](T const& l, T const& r) { return Callable(l, r); });
 }
+
+//// Make it easier to construct an accumulation function
+//template <typename T, template <typename X, typename...> class Accu, typename... Rest, typename... Args>
+//std::function<T(T const&, T const&)> mk_accumulator(Args&&... args) {
+//    return std::function<T(T const&, T const&)>(Accu<T, Rest...>(std::forward<Args>(args)...));
+//}
+
+//template <typename T>
+//using Accumulator = std::function<T(T const&, T const&)>;
 
 int main(int argc, char*const*const argv) {
     auto           cmd    = ap::ArgumentParser( ap::docstring("Process some integers.") );
-    auto           accufn = mk_accumulator<int, max_f>();
+    //Accumulator<int> accumulator;//( &std::max<int> );
+    //auto           accufn = mk_accumulator( &std::max<int> );//<int, max_f>();
     std::list<int> ints;    // the integers collected from the command line
 
     // We have '-h|--help', '--sum' and the arguments, integers
@@ -49,7 +58,13 @@ int main(int argc, char*const*const argv) {
 
     // If '--sum' is provided, use that, otherwise find the max.
     cmd.add(ap::docstring("Sum the integers (default: find the max)"),
-            ap::store_const_into(mk_accumulator<int, std::plus>(), accufn),
+            //ap::store_const_into(std::plus<int>(), accumulator),
+            //ap::store_const<Accumulator<int>>(std::plus<int>()),
+            ap::store_const([](int l, int r) { return l+r; }),
+            ap::set_default([](int l, int r) { return std::max(l, r); });
+            //ap::set_default( Accumulator<int>(&std::max<int>) ),
+            //ap::store_const_into(mk_accumulator(std::plus<int>()), accufn),
+            //ap::store_const_into(mk_accumulator<int, std::plus>(), accufn),
             ap::long_name("sum"));
 
     // Let the command line parser collect the converted command line
@@ -71,7 +86,8 @@ int main(int argc, char*const*const argv) {
     // can be done.
     // We can safely use "++begin()" because we /required/ "at_least(1)" ;-)
     std::cout
-        << std::accumulate(++std::begin(ints), std::end(ints), *std::begin(ints), accufn)
+        << std::accumulate(++std::begin(ints), std::end(ints), *std::begin(ints), cmd.get<Accumulator<int>>("sum"))
+        //<< std::accumulate(++std::begin(ints), std::end(ints), *std::begin(ints), accufn)
         << std::endl;
     return 0;
 }

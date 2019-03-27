@@ -278,7 +278,7 @@
 #include <utility>
 #include <functional>
 
-namespace argparse { 
+namespace argparse11 { 
     namespace detail {
         ////////////////////////////////////////////////
         // Stuff that gets passed in by the usert can be
@@ -319,19 +319,19 @@ namespace argparse {
 
 
         template <>
-        std::string demangle_f<argparse::detail::constraint>( void ) {
+        std::string demangle_f<argparse11::detail::constraint>( void ) {
             return "constraint";
         }
         template <>
-        std::string demangle_f<argparse::detail::precondition>( void ) {
+        std::string demangle_f<argparse11::detail::precondition>( void ) {
             return "precondition";
         }
         template <>
-        std::string demangle_f<argparse::detail::postcondition>( void ) {
+        std::string demangle_f<argparse11::detail::postcondition>( void ) {
             return "postcondition";
         }
         template <>
-        std::string demangle_f<argparse::detail::formatcondition>( void ) {
+        std::string demangle_f<argparse11::detail::formatcondition>( void ) {
             return "format";
         }
 
@@ -1497,6 +1497,6 @@ namespace argparse {
     }
 
 
-} // namespace argparse
+} // namespace argparse11
 
 #endif
